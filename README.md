@@ -49,3 +49,51 @@
 
 </dependencies>
 ```
+
+单元测试程序：
+```java
+public class DependenceHasaopRemovesfTest {
+
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:dependence_hasaop_removesf.xml");
+        Circle circle = (Circle)context.getBean("circle");
+        Loop loop = (Loop) context.getBean("loop");
+        C c = (C) context.getBean("c");
+        System.out.println(circle.getClass().getTypeName());
+        System.out.println(loop.getClass().getTypeName());
+        System.out.println(c.getClass().getTypeName());
+        circle.sayHello("ly");
+    }
+}
+```
+打印信息：
+```shell
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.DefaultSingletonBeanRegistry addEarlySingletonObject
+信息: org.springframework.aop.config.internalAutoProxyCreator -> org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator, 添加进 earlySingletonObjects
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory doCreateBean
+信息: earlyExposedObject=org.springframework.aop.aspectj.AspectJPointcutAdvisor@33c78070
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.DefaultSingletonBeanRegistry addEarlySingletonObject
+信息: org.springframework.aop.aspectj.AspectJPointcutAdvisor#0 -> org.springframework.aop.aspectj.AspectJPointcutAdvisor, 添加进 earlySingletonObjects
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory doCreateBean
+信息: earlyExposedObject=org.lyflexi.circle.Circle@13e344d
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.DefaultSingletonBeanRegistry addEarlySingletonObject
+信息: circle -> org.lyflexi.circle.Circle$$SpringCGLIB$$0, 添加进 earlySingletonObjects
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory doCreateBean
+信息: earlyExposedObject=org.lyflexi.circle.Loop@60099951
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.DefaultSingletonBeanRegistry addEarlySingletonObject
+信息: loop -> org.lyflexi.circle.Loop$$SpringCGLIB$$0, 添加进 earlySingletonObjects
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory doCreateBean
+信息: earlyExposedObject=org.lyflexi.circle.C@750e2b97
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.DefaultSingletonBeanRegistry addEarlySingletonObject
+信息: c -> org.lyflexi.circle.C, 添加进 earlySingletonObjects
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory doCreateBean
+信息: earlyExposedObject=org.lyflexi.circle.MyAspect@3e27aa33
+8月 31, 2024 6:01:57 下午 org.springframework.beans.factory.support.DefaultSingletonBeanRegistry addEarlySingletonObject
+信息: myAspect -> org.lyflexi.circle.MyAspect, 添加进 earlySingletonObjects
+org.lyflexi.circle.Circle$$SpringCGLIB$$0
+org.lyflexi.circle.Loop$$SpringCGLIB$$0
+org.lyflexi.circle.C
+前置增强处理...
+hello, ly
+
+```

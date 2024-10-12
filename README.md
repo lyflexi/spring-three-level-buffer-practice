@@ -1,6 +1,8 @@
 # spring-three-level-buffer-practice
 
-修改spring 6.1.2框架源码，更加硬核的调试！证明移除了三级缓存，依然支持AOP循环依赖，只是违背了SpringAOP的设计思想而已
+修改spring 6.1.2框架源码，更加硬核的调试！证明移除了三级缓存，不影响框架功能，依然支持AOP场景下的循环依赖，只是违背了SpringAOP的设计思想而已
+
+SpringAOP的设计理念：Spring在设计之初就是通过 `AnnotationAwareAspectJAutoProxyCreator`这个后置处理器来在Bean生命周期的最后一步（初始化之后：AnnotationAwareAspectJAutoProxyCreator#postProcessAfterInitialization）来完成AOP代理，即使牺牲那么一丢丢内存空间也是愿意接受的。如果没有早期引用（三级缓存），意味着所有Bean在实例化后就要马上完成AOP代理，这样违背了Spring设计的原则
 
 下载spring 6.1.2进行源码修改，重新编译，会报很多错，解决办法如下：
 <!--spring 6.1.2需要额外很多jar包支持-->
@@ -97,3 +99,6 @@ org.lyflexi.circle.C
 hello, ly
 
 ```
+
+
+注意：有别于属性注入，构造注入场景下的循环依赖spring是无法解决的，即使是三级缓存。因为构造器注入是在 Bean 实例化过程中起作用的，一个 Bean 没有实例化完成的时候就去实例化另一个 Bean，这个时候连“早期的毛胚 Bean”都没有，因此解决不了循环依赖的问题。
